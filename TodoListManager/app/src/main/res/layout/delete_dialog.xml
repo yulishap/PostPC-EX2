@@ -11,4 +11,12 @@
         android:layout_height="wrap_content"
         android:text="Delete Item"
         android:id="@+id/menuItemDelete" />
+
+    <Button
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/menuItemCall"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 </LinearLayout>
