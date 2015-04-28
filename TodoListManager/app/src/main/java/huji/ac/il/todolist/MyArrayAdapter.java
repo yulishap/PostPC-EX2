@@ -8,31 +8,52 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Yuli on 16/03/2015.
  */
-public class MyArrayAdapter extends ArrayAdapter<String>{
+public class MyArrayAdapter extends ArrayAdapter<Task>{
 
-    public MyArrayAdapter(Context context,ArrayList<String> tasks) {
+    public MyArrayAdapter(Context context,ArrayList<Task> tasks) {
         super(context,0, tasks);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        String cont = getItem(position);
+        Task task = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.todo_item, parent, false);
         }
-        TextView task= (TextView)convertView.findViewById(R.id.textView);
-        task.setText(cont);
-        if (position%2 == 0)
-            task.setTextColor(Color.RED);
-        else
-            task.setTextColor(Color.BLUE);
+        TextView taskTitle= (TextView)convertView.findViewById(R.id.txtTodoTitle);
+        taskTitle.setText(task.getTitle());
+
+        TextView taskDate= (TextView)convertView.findViewById(R.id.txtTodoDueDate);
+        if (task.getDate() == null){
+            taskDate.setText("No due date");
+        }
+        else {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+            taskDate.setText(df.format(task.getDate()));
+
+            Date todayDate = new Date();
+
+            if (todayDate.after(task.getDate())) {
+                taskDate.setTextColor(Color.RED);
+                taskTitle.setTextColor(Color.RED);
+            }
+            else{
+                taskDate.setTextColor(Color.BLACK);
+                taskTitle.setTextColor(Color.BLACK);
+            }
+
+        }
         return convertView;
     }
 }
